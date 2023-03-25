@@ -12,7 +12,8 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
+import storage from "redux-persist/lib/storage";
+import { createWrapper } from "next-redux-wrapper";
 
 const rootReducers = combineReducers({
   cart: statsCart,
@@ -39,6 +40,11 @@ const store = configureStore({
 });
 export const persistor = persistStore(store);
 export default store;
+
+// export type AppStore = ReturnType<typeof store>;
+// export type RootState = ReturnType<AppStore["getState"]>;
+// export type AppDispatch = AppStore["dispatch"];
+export const wrapper = createWrapper(store, { debug: true });
 
 // import { configureStore } from "@reduxjs/toolkit";
 // import cartReducer from "./statsCart";

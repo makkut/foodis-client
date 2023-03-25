@@ -2,7 +2,6 @@ import { useActions } from "@/hooks/useActions";
 import {
   Drawer,
   DrawerBody,
-  DrawerCloseButton,
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
@@ -32,7 +31,6 @@ const HeaderMobileMenu: FC = () => {
               </Link>
             </div>
           </DrawerHeader>
-          {/* <DrawerCloseButton /> */}
           <DrawerBody>
             <div className={styles.menu}>
               <nav>

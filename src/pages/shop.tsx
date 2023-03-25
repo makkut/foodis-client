@@ -1,21 +1,13 @@
-import Header from "@/components/Header/Header";
-import HeaderMobileMenu from "@/components/Header/HeaderMobileMenu";
-import CartMenu from "@/components/Navbar/CartMenu";
+import Layout from "@/components/Layout/Layout";
 import Shop from "@/components/Shop/Shop";
 import Head from "next/head";
+import { NextPage } from "next";
 
-const ShopPage = (props: any) => {
+const ShopPage: NextPage = (props: any) => {
   return (
-    <>
-      <Head>
-        <title>Shop || Russian Foodis</title>
-        <meta name="description" content="Russian Foodis Panama, Shop" />
-      </Head>
-      <Header />
+    <Layout title="Shop" description="Russian Foodies, Panama">
       <Shop />
-      <CartMenu />
-      <HeaderMobileMenu />
-    </>
+    </Layout>
   );
 };
 export default ShopPage;

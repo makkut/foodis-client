@@ -14,14 +14,18 @@ export const cartSlice = createSlice({
       state.items = action.payload;
     },
     addToCart: (state, action) => {
+      debugger;
       const itemInCart = state.cart.find(
         (item) => item.id === action.payload.item.id
       );
 
       if (itemInCart) {
-        itemInCart.count++;
+        itemInCart.count = itemInCart.count + action.payload.item.count;
       } else {
-        state.cart.push({ ...action.payload.item, count: 1 });
+        state.cart.push({
+          ...action.payload.item,
+          count: action.payload.item.count,
+        });
       }
 
       //   state.cart = [...state.cart, action.payload.item];

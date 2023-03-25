@@ -6,26 +6,14 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 
 const Item = ({ item, width }: any) => {
+  const API_URL = process.env.API_URL;
   const router = useRouter();
   const { addToCart } = useActions();
   const [count, setCount] = useState(1);
+  console.log("count", count);
+
   const [isHovered, setIsHovered] = useState(false);
   const { category, price, name, image } = item.attributes;
-  const {
-    data: {
-      attributes: {
-        formats: {
-          medium: { url },
-        },
-      },
-    },
-  } = image;
-  console.log("render");
-
-  const myLoader = () => {
-    return `http://localhost:1337${image.data.attributes.formats.small.url}`;
-  };
-
   return (
     <Box width={width}>
       <Box
@@ -38,8 +26,7 @@ const Item = ({ item, width }: any) => {
           alt={name}
           width={300}
           height={534}
-          loader={myLoader}
-          src={`http://localhost:1337${image.data.attributes.formats.small.url}`}
+          src={API_URL + image.data.attributes.formats.small.url}
           onClick={() => router.push(`/items/${item.id}`)}
         />
         <Box

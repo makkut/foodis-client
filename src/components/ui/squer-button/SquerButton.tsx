@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { IconType } from "react-icons";
-import { AiFillChrome } from "react-icons/ai";
 
 interface ISquereButton {
   Icon: IconType;

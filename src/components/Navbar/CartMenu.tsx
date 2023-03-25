@@ -7,7 +7,6 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import {
   Drawer,
-  Button,
   DrawerBody,
   DrawerFooter,
   DrawerHeader,
@@ -23,6 +22,7 @@ const FlexBox = styled(Box)`
 `;
 
 const CartMenu = () => {
+  const API_URL = process.env.API_URL;
   const router = useRouter();
   const { setIsCartOpen, increaseCount, decreaseCount, removeFromCart } =
     useActions();
@@ -72,10 +72,6 @@ const CartMenu = () => {
           <DrawerBody className="px-3" style={{ padding: "0 9px" }}>
             <Box>
               {cart.map((item: any) => {
-                const myLoader = () => {
-                  return `http://localhost:1337${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`;
-                };
-
                 return (
                   <Box key={`${item.attributes.name}-${item.id}`}>
                     <FlexBox p="15px 0">
@@ -84,8 +80,11 @@ const CartMenu = () => {
                           alt={item?.attributes.name}
                           width={123}
                           height={164}
-                          loader={myLoader}
-                          src={`http://localhost:1337${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
+                          src={
+                            API_URL +
+                            item?.attributes?.image?.data?.attributes?.formats
+                              ?.medium?.url
+                          }
                         />
                       </Box>
                       <Box flex="1 1 60%" className="pl-2">
