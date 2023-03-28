@@ -15,7 +15,7 @@ export default function Home() {
     <Layout title="Home" description="Russian Foodies, Panama">
       <main>
         <Slider />
-        <h1>{session ? "Authenticated" : "Not Authenticated"}</h1>
+        {/* <h1>{session ? "Authenticated" : "Not Authenticated"}</h1>
         {session && (
           <div style={{ marginBottom: 10 }}>
             <h3>Session Data</h3>
@@ -38,7 +38,7 @@ export default function Home() {
           >
             Protected Page
           </button>
-        </Link>
+        </Link> */}
       </main>
     </Layout>
   );

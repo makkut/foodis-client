@@ -1,4 +1,4 @@
-import AuthLogin from "@/components/Auth/Auth";
+import AuthLogin from "@/components/Auth/Authentification";
 import { FC } from "react";
 
 export async function getServerSideProps() {
