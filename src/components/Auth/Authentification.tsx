@@ -33,7 +33,7 @@ const Authentification: FC = () => {
             password: values.password,
           });
           if (result?.ok) {
-            router.replace("/profile");
+            router.push("/profile");
             return;
           }
           alert("email/password is not valid");

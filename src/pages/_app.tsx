@@ -7,6 +7,8 @@ import store, { persistor } from "../state";
 import { ChakraProvider } from "@chakra-ui/react";
 import { PersistGate } from "redux-persist/integration/react";
 import { SessionProvider } from "next-auth/react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App({
   Component,
@@ -19,6 +21,7 @@ export default function App({
           <>
             <ThemeProvider theme={theme}>
               <CssBaseline />
+              <ToastContainer position="bottom-right" />
               <ChakraProvider>
                 <SessionProvider session={session}>
                   <Component {...pageProps} />

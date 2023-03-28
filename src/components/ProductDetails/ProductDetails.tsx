@@ -3,6 +3,7 @@ import { Add, Remove } from "@mui/icons-material";
 import { Box, IconButton, Typography } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function ProductDetails({ item }: any) {
   console.log("good", item);
@@ -47,6 +48,7 @@ export default function ProductDetails({ item }: any) {
           <button
             onClick={() => {
               addToCart({ item: { ...item, count } });
+              toast.success(`${name} - ${count} added to cart`);
             }}
             className="text-white bg-red-600 hover:bg-red-500 px-[70px] py-[9px] duration-500 transform rounded-[5px] ml-5"
           >

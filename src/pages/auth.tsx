@@ -13,16 +13,16 @@ const AuthPage: NextPage = () => {
         <div className="w-[300px] ">
           {isReg ? (
             <>
-              <Authentification />
+              <Registration />
               <AuthRegButton onClick={() => setIsReg(!isReg)}>
-                Registration
+                Authentification
               </AuthRegButton>
             </>
           ) : (
             <>
-              <Registration />
+              <Authentification />
               <AuthRegButton onClick={() => setIsReg(!isReg)}>
-                Authentification
+                Registration
               </AuthRegButton>
             </>
           )}

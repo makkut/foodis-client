@@ -4,6 +4,7 @@ import { IconButton, Box, Typography, Button } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 const Item = ({ item, width }: any) => {
   const API_URL = process.env.API_URL;
@@ -50,6 +51,7 @@ const Item = ({ item, width }: any) => {
             <button
               onClick={() => {
                 addToCart({ item: { ...item, count } });
+                toast.success(`${name} - ${count} added to cart`);
               }}
               className="text-white bg-red-600 hover:bg-red-500 px-5 duration-500 transform rounded-sm"
             >
