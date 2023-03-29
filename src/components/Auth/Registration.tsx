@@ -11,6 +11,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import AuthRegButton from "../ui/auth-reg-button/AuthRegButton";
+import { toast, ToastContainer } from "react-toastify";
 
 function validateName(value: any) {
   let error;
@@ -24,6 +25,7 @@ const Registration: FC = () => {
   const router = useRouter();
   return (
     <>
+      <ToastContainer position="top-center" />
       <Formik
         initialValues={{ email: "", password: "", username: "" }}
         onSubmit={async (values, actions) => {
@@ -36,7 +38,6 @@ const Registration: FC = () => {
                 username: values.username,
               }
             );
-            debugger;
             console.log("responseData", responseData);
             if (responseData.status == 200) {
               const result = await signIn("credentials", {
@@ -45,12 +46,13 @@ const Registration: FC = () => {
                 password: values.password,
               });
               if (result?.ok) {
-                router.replace("/profile");
+                router.push("/profile");
                 return;
               }
-              alert("email/password is not valid");
+              toast.error("email/password is not valid");
               actions.setSubmitting(false);
             }
+            toast.error("Error");
           } catch (error) {
             console.error(error);
           }
@@ -63,7 +65,7 @@ const Registration: FC = () => {
                 <FormControl
                   isInvalid={form.errors.username && form.touched.username}
                 >
-                  <FormLabel className="mb-0">Username</FormLabel>
+                  <FormLabel className="!mb-0">Username</FormLabel>
                   <Input {...field} placeholder="username" type="text" />
                   <FormErrorMessage>{form.errors.username}</FormErrorMessage>
                 </FormControl>
@@ -74,7 +76,7 @@ const Registration: FC = () => {
                 <FormControl
                   isInvalid={form.errors.email && form.touched.email}
                 >
-                  <FormLabel className="mb-0 mt-1">Email</FormLabel>
+                  <FormLabel className="!mb-0 !mt-1">Email</FormLabel>
                   <Input {...field} placeholder="email" type="email" />
                   <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                 </FormControl>
@@ -85,7 +87,7 @@ const Registration: FC = () => {
                 <FormControl
                   isInvalid={form.errors.password && form.touched.password}
                 >
-                  <FormLabel className="mb-0 mt-1">Password</FormLabel>
+                  <FormLabel className="!mb-0 !mt-1">Password</FormLabel>
                   <Input {...field} placeholder="password" type="password" />
                   <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                 </FormControl>

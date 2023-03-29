@@ -7,6 +7,7 @@ import { GoodsServices } from "@/components/services/goods.service";
 import { useGetGoodQuery } from "@/state/goodsApi";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { ToastContainer } from "react-toastify";
 
 // export const getStaticPaths = async () => {
 //   const goods = await GoodsServices.getAll();
@@ -56,6 +57,7 @@ const ItemPage = (props: any) => {
       description={props.good[0].attributes.shortDescription}
     >
       {/* <Item item={props.good[0]} /> */}
+      <ToastContainer position="bottom-right" />
       <ProductDetails item={props.good[0]} />
     </Layout>
     // <>

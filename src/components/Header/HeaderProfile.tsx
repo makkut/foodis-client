@@ -21,7 +21,7 @@ const HeaderProfile: FC = () => {
   const { data: session }: any = useSession();
   console.log("session", session);
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center mr-3">
       <div className="mr-3">
         <DynamicSquerButton
           Icon={FiShoppingCart}

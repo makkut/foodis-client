@@ -14,7 +14,6 @@ export const cartSlice = createSlice({
       state.items = action.payload;
     },
     addToCart: (state, action) => {
-      debugger;
       const itemInCart = state.cart.find(
         (item) => item.id === action.payload.item.id
       );

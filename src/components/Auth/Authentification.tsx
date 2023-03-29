@@ -11,6 +11,8 @@ import axios from "axios";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import AuthRegButton from "../ui/auth-reg-button/AuthRegButton";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 function validateName(value: any) {
   let error;
@@ -24,6 +26,7 @@ const Authentification: FC = () => {
   const router = useRouter();
   return (
     <>
+      <ToastContainer position="top-center" />
       <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={async (values, actions) => {
@@ -36,7 +39,7 @@ const Authentification: FC = () => {
             router.push("/profile");
             return;
           }
-          alert("email/password is not valid");
+          toast.error("email/password is not valid");
           actions.setSubmitting(false);
         }}
       >
@@ -47,7 +50,7 @@ const Authentification: FC = () => {
                 <FormControl
                   isInvalid={form.errors.email && form.touched.email}
                 >
-                  <FormLabel className="mb-0">Email</FormLabel>
+                  <FormLabel className="!mb-0">Email</FormLabel>
                   <Input {...field} placeholder="email" type="email" />
                   <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                 </FormControl>
@@ -58,7 +61,7 @@ const Authentification: FC = () => {
                 <FormControl
                   isInvalid={form.errors.password && form.touched.password}
                 >
-                  <FormLabel className="mb-0 mt-1">Password</FormLabel>
+                  <FormLabel className="!mb-0 !mt-1">Password</FormLabel>
                   <Input {...field} placeholder="password" type="password" />
                   <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                 </FormControl>
