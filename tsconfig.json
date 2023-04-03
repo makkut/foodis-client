@@ -26,7 +26,8 @@
     "src/styles/theme/theme.js",
     "src/state/index.ts",
     "src/hooks/useActions.js",
-    "src/pages/items/[id].js"
+    "src/pages/items/[id].js",
+    "src/components/Checkout/Checkout.tsx"
   ],
   "exclude": ["node_modules"]
 }

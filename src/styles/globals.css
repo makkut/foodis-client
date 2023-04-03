@@ -21,6 +21,9 @@ span {
 }
 html {
   padding: 0;
+  background: #a30005;
+  /* background: #b72523; */
+
   /* padding: 0;
   padding: 0 calc(17px - (100vw - 100%)) 0 0; */
 }

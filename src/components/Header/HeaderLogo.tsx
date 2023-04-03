@@ -5,9 +5,9 @@ import Link from "next/link";
 const HeaderLogo: FC = () => {
   return (
     <>
-      <div className="pl-10">
+      <div className="md:pl-10">
         <Link href="/">
-          <Image src="/logo.png" width={100} height={100} alt="logo" />
+          <Image src="/logo.png" width={120} height={100} alt="logo" />
         </Link>
       </div>
     </>

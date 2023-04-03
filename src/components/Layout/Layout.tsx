@@ -1,3 +1,4 @@
+import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import HeaderMobileMenu from "../Header/HeaderMobileMenu";
 import CartMenu from "../Navbar/CartMenu";
@@ -10,6 +11,7 @@ export default function Layout({ children, title, description }: any) {
       <CartMenu />
       <HeaderMobileMenu />
       {children}
+      <Footer />
     </Meta>
   );
 }

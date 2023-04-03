@@ -1,6 +1,4 @@
 import Layout from "@/components/Layout/Layout";
-import Shop from "@/components/Shop/Shop";
-import Head from "next/head";
 import { NextPage } from "next";
 import dynamic from "next/dynamic";
 import { ToastContainer } from "react-toastify";

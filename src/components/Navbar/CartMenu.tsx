@@ -28,7 +28,7 @@ const CartMenu = () => {
     useActions();
   const cart = useSelector((state: any) => state.cart.cart);
   const isCartOpen = useSelector((state: any) => state.cart.isCartOpen);
-
+  console.log("cart", cart.length);
   var map = cart.reduce((acc: any, cur: any) => {
     acc[cur.id] = acc[cur.id] || {
       id: cur.id,
@@ -123,25 +123,27 @@ const CartMenu = () => {
               })}
             </Box>
           </DrawerBody>
+          {cart.length > 0 && (
+            <DrawerFooter className="mx-auto">
+              <Box className="w-[100%]">
+                <FlexBox>
+                  <p className="font-bold">SUBTOTAL</p>
+                  <p className="font-bold">{totalPrice} $</p>
+                </FlexBox>
 
-          <DrawerFooter className="mx-auto">
-            <Box className="w-[100%]">
-              <FlexBox>
-                <p className="font-bold">SUBTOTAL</p>
-                <p className="font-bold">{totalPrice} $</p>
-              </FlexBox>
-              <button
-                className="px-[40px] py-[15px] min-w-[100%] my-[20px] bg-red-500 text-white font-bold hover:bg-red-800 duration-500
+                <button
+                  className="px-[40px] py-[15px] min-w-[100%] my-[20px] bg-red-500 text-white font-bold hover:bg-red-800 duration-500
               transform rounded-md"
-                onClick={() => {
-                  router.push("/checkout");
-                  setIsCartOpen();
-                }}
-              >
-                CHECKOUT
-              </button>
-            </Box>
-          </DrawerFooter>
+                  onClick={() => {
+                    router.push("/checkout");
+                    setIsCartOpen();
+                  }}
+                >
+                  CHECKOUT
+                </button>
+              </Box>
+            </DrawerFooter>
+          )}
         </DrawerContent>
       </Drawer>
     </>
