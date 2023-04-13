@@ -13,7 +13,7 @@ export default function ProductDetails({ item }: any) {
   const API_URL = process.env.API_URL;
 
   return (
-    <div className="flex justify-center items-center pt-5">
+    <div className="flex justify-center items-center pt-5 mb-10">
       <Image
         className=""
         alt={name}

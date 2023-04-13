@@ -4,7 +4,6 @@ import {
   FormLabel,
   FormErrorMessage,
   Input,
-  Button,
 } from "@chakra-ui/react";
 import { Field, Form, Formik } from "formik";
 import { signIn } from "next-auth/react";
@@ -53,7 +52,8 @@ const Registration: FC = () => {
               actions.setSubmitting(false);
             }
             toast.error("Error");
-          } catch (error) {
+          } catch (error: any) {
+            toast.error(error.response.data.error.message);
             console.error(error);
           }
         }}
