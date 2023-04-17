@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import statsCart from "./statsCart";
 import statsMenu from "./statsMenu";
+import statsFavorites from "./statsFavorites";
 import { goodsApi } from "./goodsApi";
 import {
   persistStore,
@@ -16,6 +17,7 @@ import storage from "redux-persist/lib/storage";
 import { createWrapper } from "next-redux-wrapper";
 
 const rootReducers = combineReducers({
+  favorites: statsFavorites,
   cart: statsCart,
   menu: statsMenu,
   [goodsApi.reducerPath]: goodsApi.reducer,

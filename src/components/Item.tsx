@@ -5,13 +5,16 @@ import { Add, Remove } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { toast } from "react-toastify";
+import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 const Item = ({ item, width }: any) => {
   const API_URL = process.env.API_URL;
   const router = useRouter();
-  const { addToCart } = useActions();
+  const { addToCart, toogleFavorites } = useActions();
+  const isFavorites = useSelector((state: any) => state.favorites.favorites);
   const [count, setCount] = useState(1);
-  console.log("count", count);
+  console.log("isFavorites", isFavorites);
 
   const [isHovered, setIsHovered] = useState(false);
   const { category, price, name, image } = item.attributes;
@@ -30,6 +33,18 @@ const Item = ({ item, width }: any) => {
           src={API_URL + image.data.attributes.formats.small.url}
           onClick={() => router.push(`/items/${item.id}`)}
         />
+
+        <Box className="absolute top-[5%] left-[77%] px-[5%] py-0">
+          {isFavorites.find((i: any) => i.id === item.id) ? (
+            <button onClick={() => toogleFavorites({ item: { ...item } })}>
+              <MdFavorite color="white" size={32} />
+            </button>
+          ) : (
+            <button onClick={() => toogleFavorites({ item: { ...item } })}>
+              <MdFavoriteBorder color="white" size={32} />
+            </button>
+          )}
+        </Box>
         <Box
           display={isHovered ? "block" : "none"}
           className="absolute bottom-[10%] left-0 w-[100%] px-[5%] py-0"

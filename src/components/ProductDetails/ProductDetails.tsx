@@ -3,17 +3,21 @@ import { Add, Remove } from "@mui/icons-material";
 import { Box, IconButton, Typography } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
+import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 export default function ProductDetails({ item }: any) {
   console.log("good", item);
   const [count, setCount] = useState(1);
-  const { addToCart } = useActions();
+  const { addToCart, toogleFavorites } = useActions();
+  const isFavorites = useSelector((state: any) => state.favorites.favorites);
   const { name, image, longDescription, category, price } = item.attributes;
   const API_URL = process.env.API_URL;
+  console.log("isFavorites", isFavorites);
 
   return (
-    <div className="flex justify-center items-center pt-5 mb-10">
+    <div className="flex justify-center items-center pt-5 mb-10 relative">
       <Image
         className=""
         alt={name}
@@ -21,6 +25,17 @@ export default function ProductDetails({ item }: any) {
         height={534}
         src={API_URL + image.data.attributes.formats.small.url}
       />
+      <Box className="absolute top-[6%] left-[32%] px-[5%] py-0">
+        {isFavorites.find((i: any) => i.id === item.id) ? (
+          <button onClick={() => toogleFavorites({ item: { ...item } })}>
+            <MdFavorite color="white" size={32} />
+          </button>
+        ) : (
+          <button onClick={() => toogleFavorites({ item: { ...item } })}>
+            <MdFavoriteBorder color="white" size={32} />
+          </button>
+        )}
+      </Box>
       <div className="w-[50%] pl-6">
         <h3 className="font-bold text-lg">{name}</h3>
 
