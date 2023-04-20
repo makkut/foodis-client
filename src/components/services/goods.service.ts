@@ -15,5 +15,14 @@ export const GoodsServices = {
             }
         })
         return data
+    },
+
+    async searchByName(name: any) {
+        const { data }: any = await axios.get(`/api/items?populate=image&filters[name][$contains]=${name}`, {
+            params: {
+                name
+            }
+        })
+        return data
     }
 }

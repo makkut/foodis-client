@@ -96,7 +96,10 @@ const CartMenu = () => {
                             <Close />
                           </IconButton>
                         </FlexBox>
-                        <p>{item.attributes.shortDescription}</p>
+                        <p>{`${item.attributes.shortDescription.slice(
+                          0,
+                          80
+                        )}...`}</p>
                         <p className="pl-2 pt-2 font-bold">
                           {item.attributes.price} $
                         </p>
