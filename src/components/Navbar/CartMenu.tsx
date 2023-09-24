@@ -1,7 +1,5 @@
 import { Box, Divider, IconButton } from "@mui/material";
-import { useSelector } from "react-redux";
 import { Close, Add, Remove } from "@mui/icons-material";
-import { useActions } from "./../../hooks/useActions";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -14,6 +12,7 @@ import {
   DrawerContent,
   DrawerCloseButton,
 } from "@chakra-ui/react";
+import { useCart } from "@/state/zustand";
 
 const FlexBox = styled(Box)`
   display: flex;
@@ -22,13 +21,16 @@ const FlexBox = styled(Box)`
 `;
 
 const CartMenu = () => {
-  const API_URL = process.env.API_URL;
+  const {
+    cart,
+    isCartOpen,
+    setIsCartOpen,
+    increaseCount,
+    decreaseCount,
+    removeFromCart,
+  } = useCart();
   const router = useRouter();
-  const { setIsCartOpen, increaseCount, decreaseCount, removeFromCart } =
-    useActions();
-  const cart = useSelector((state: any) => state.cart.cart);
-  const isCartOpen = useSelector((state: any) => state.cart.isCartOpen);
-  console.log("cart", cart.length);
+
   var map = cart.reduce((acc: any, cur: any) => {
     acc[cur.id] = acc[cur.id] || {
       id: cur.id,
@@ -51,8 +53,8 @@ const CartMenu = () => {
   });
 
   const totalPrice = cart.reduce(
-    (total: number, item: { count: number; attributes: { price: number } }) => {
-      return total + item.count * item.attributes.price;
+    (total: number, item: { count: number; price: number }) => {
+      return total + item.count * item.price;
     },
     0
   );
@@ -73,36 +75,27 @@ const CartMenu = () => {
             <Box>
               {cart.map((item: any) => {
                 return (
-                  <Box key={`${item.attributes.name}-${item.id}`}>
+                  <Box key={`${item.name}-${item.id}`}>
                     <FlexBox p="15px 0">
                       <Box flex="1 1 40%">
                         <Image
-                          alt={item?.attributes.name}
+                          alt={item?.imageUrl}
                           width={123}
                           height={164}
-                          src={
-                            API_URL +
-                            item?.attributes?.image?.data?.attributes?.formats
-                              ?.medium?.url
-                          }
+                          src={item?.imageUrl}
                         />
                       </Box>
                       <Box flex="1 1 60%" className="pl-2">
                         <FlexBox mb="5px">
-                          <p className="font-bold">{item.attributes.name}</p>
+                          <p className="font-bold">{item.name}</p>
                           <IconButton
                             onClick={() => removeFromCart({ id: item.id })}
                           >
                             <Close />
                           </IconButton>
                         </FlexBox>
-                        <p>{`${item.attributes.shortDescription.slice(
-                          0,
-                          80
-                        )}...`}</p>
-                        <p className="pl-2 pt-2 font-bold">
-                          {item.attributes.price} $
-                        </p>
+                        <p>{`${item.details.slice(0, 80)}...`}</p>
+                        <p className="pl-2 pt-2 font-bold">{item.price} $</p>
                         <FlexBox m="15px 0">
                           <Box className="flex items-center border-spacing-[1.5px]">
                             <IconButton

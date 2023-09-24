@@ -10,7 +10,7 @@ const nextConfig = {
     // unoptimized: true,
     // path: "/_next/image",
     loader: "default",
-    domains: [process.env.STRAPI_API],
+    domains: [process.env.SANITY_API],
   },
 };
 

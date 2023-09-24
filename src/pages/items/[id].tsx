@@ -1,7 +1,10 @@
 import Layout from "@/components/Layout/Layout";
-import { GoodsServices } from "@/components/services/goods.service";
 import { ToastContainer } from "react-toastify";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import { useGood } from "@/hooks/useCustomQuery";
+import MoonLoader from "react-spinners/MoonLoader";
+import _ from "lodash";
 
 const DynamicProductDetails = dynamic(
   () => import("@/components/ProductDetails/ProductDetails"),
@@ -10,23 +13,36 @@ const DynamicProductDetails = dynamic(
   }
 );
 
-export const getServerSideProps = async ({ params }: any) => {
-  const good = await GoodsServices.getByID(String(params?.id));
+const ItemPage = () => {
+  const router = useRouter();
+  const id = String(router.query.id);
+  console.log("router", router.query.id);
 
-  return {
-    props: { good: good.data },
-  };
-};
+  const { data, isLoading, isError } = useGood(id);
+  console.log("data", data);
+  if (isError) {
+    return <>Error!!!</>;
+  }
 
-const ItemPage = (props: any) => {
+  if (isLoading) {
+    return (
+      <Layout title="Loading..." description="">
+        <div className="h-[614px] flex justify-center items-center">
+          <MoonLoader color="#EF4444" />
+        </div>
+      </Layout>
+    );
+  }
+
   return (
-    <Layout
-      title={props.good[0].attributes.name}
-      description={props.good[0].attributes.shortDescription}
-    >
-      <ToastContainer position="bottom-right" />
-      <DynamicProductDetails item={props.good[0]} />
-    </Layout>
+    !_.isEmpty(data) && (
+      <Layout title={data[0].name} description={data[0].details}>
+        <ToastContainer position="bottom-right" />
+        <div className="min-h-[70vh]">
+          <DynamicProductDetails item={data[0]} />
+        </div>
+      </Layout>
+    )
   );
 };
 export default ItemPage;

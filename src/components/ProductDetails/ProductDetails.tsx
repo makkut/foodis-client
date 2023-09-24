@@ -1,40 +1,44 @@
-import { useActions } from "@/hooks/useActions";
+import { useCart, useFavorites } from "@/state/zustand";
 import { Add, Remove } from "@mui/icons-material";
 import { Box, IconButton, Typography } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 export default function ProductDetails({ item }: any) {
   console.log("good", item);
   const [count, setCount] = useState(1);
-  const { addToCart, toogleFavorites } = useActions();
-  const isFavorites = useSelector((state: any) => state.favorites.favorites);
-  const { name, image, longDescription, category, price } = item.attributes;
-  const API_URL = process.env.API_URL;
-  console.log("isFavorites", isFavorites);
+  const { name, imageUrl, details, price, category } = item;
+  const { toggleFavorites, favorites } = useFavorites();
+  const { addToCart } = useCart();
+  //   const { addToCart, toogleFavorites } = useActions();
+  //   const isFavorites = useSelector((state: any) => state.favorites.favorites);
+  //   const { name, image, longDescription, category, price } = item.attributes;
+  //   const API_URL = process.env.API_URL;
+  //   console.log("isFavorites", isFavorites);
 
   return (
-    <div className="flex justify-center items-center pt-5 mb-10 relative">
-      <Image
-        className=""
-        alt={name}
-        width={300}
-        height={534}
-        src={API_URL + image.data.attributes.formats.small.url}
-      />
-      <Box className="absolute top-[6%] left-[32%] px-[5%] py-0">
-        {isFavorites.find((i: any) => i.id === item.id) ? (
-          <button onClick={() => toogleFavorites({ item: { ...item } })}>
-            <MdFavorite color="white" size={32} />
-          </button>
-        ) : (
-          <button onClick={() => toogleFavorites({ item: { ...item } })}>
-            <MdFavoriteBorder color="white" size={32} />
-          </button>
-        )}
+    <div className="flex justify-center items-center pt-5 mb-10">
+      <Box position="relative">
+        <Image
+          className=""
+          alt={name}
+          width={300}
+          height={534}
+          src={imageUrl}
+        />
+        <Box className="absolute top-[5%] left-[77%] px-[5%] py-0">
+          {favorites.find((i: any) => i.id === item.id) ? (
+            <button onClick={() => toggleFavorites({ item: { ...item } })}>
+              <MdFavorite color="white" size={32} />
+            </button>
+          ) : (
+            <button onClick={() => toggleFavorites({ item: { ...item } })}>
+              <MdFavoriteBorder color="white" size={32} />
+            </button>
+          )}
+        </Box>
       </Box>
       <div className="w-[50%] pl-6">
         <h3 className="font-bold text-lg">{name}</h3>
@@ -71,7 +75,7 @@ export default function ProductDetails({ item }: any) {
           </button>
         </Box>
         <Box>
-          <p className="pt-4">{longDescription}</p>
+          <p className="pt-4">{details}</p>
         </Box>
       </div>
     </div>

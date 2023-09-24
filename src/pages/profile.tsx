@@ -2,9 +2,12 @@ import Layout from "@/components/Layout/Layout";
 import { NextPage } from "next";
 import { getSession } from "next-auth/react";
 
-const ProfilePage: NextPage = () => {
+const ProfilePage: NextPage = ({ user }: any) => {
+  console.log("user", user);
   return (
-    <Layout title="Profile page" description="Russian Foodies, Panama"></Layout>
+    <Layout title="Profile page" description="Russian Foodies, Panama">
+      <h3>{user.name}</h3>
+    </Layout>
   );
 };
 
@@ -15,12 +18,12 @@ export const getServerSideProps = async (context: any) => {
   if (session == null) {
     return {
       redirect: {
-        destination: "/auth",
+        destination: "/signined",
         permanent: true,
       },
     };
   }
   return {
-    props: {},
+    props: session,
   };
 };

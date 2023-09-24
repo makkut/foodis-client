@@ -1,45 +1,46 @@
-import { useGetGoodsFilterQuery, useGetGoodsQuery } from "@/state/goodsApi";
+import { useFilter, usePage, useSort } from "@/state/zustand";
 import { Box, Typography } from "@mui/material";
 import dynamic from "next/dynamic";
-import { FC, useState } from "react";
+import { FC, useEffect } from "react";
 import Item from "../Item";
-import { PaginationButtonBlock } from "../ui/pagination/PaginationButtonBlock";
 import { SkeletonBlock } from "../ui/skeleton/SkeletonBlock";
+import { PaginationButtonBlock } from "../ui/pagination/PaginationButtonBlock";
+import { useGoodsLength, useGoods } from "@/hooks/useCustomQuery";
+import SelectUI from "../ui/SelectUI";
 
 const DynamicTabMenu = dynamic(() => import("../ui/tab-menu/TabMenu"), {
   ssr: false,
 });
 
 const Shop: FC = () => {
-  const [page, setPage] = useState(1);
-  const [pageFilter, setPageFilter] = useState(1);
-  const data = useGetGoodsQuery({
-    page: page,
-    pageSize: 25,
-  });
-  const [value, setValue] = useState<any>("all");
-  const dataFilter = useGetGoodsFilterQuery({
-    page: pageFilter,
-    pageSize: 25,
-    category: value,
-  });
+  const { currentPage, itemsPerPage, setCurrentPage } = usePage(
+    (state: any) => state
+  );
+  const { filter } = useFilter((state) => state);
+  const { setSort, sort } = useSort((state: any) => state);
+  //   setSort("price desc");
+  const { data, isLoading, isError } = useGoods(
+    currentPage,
+    itemsPerPage,
+    filter,
+    "all",
+    sort
+  );
+  console.log("itemsPerPage", itemsPerPage);
+  const length = useGoodsLength(filter);
+  const paginationPage = Math.round(length.data / itemsPerPage);
 
-  const pageCount1 = data?.data?.meta?.pagination?.pageCount;
-  const pageCount2 = dataFilter?.data?.meta?.pagination?.pageCount;
+  if (isError) {
+    return <>Error!!!</>;
+  }
 
-  const openTab = (e: any) => {
-    setValue(e.target.dataset.el);
-    setPage(1);
-    setPageFilter(1);
-  };
-
-  if (data.isLoading || dataFilter.isLoading) {
+  if (isLoading) {
     return (
-      <Box width="80%" margin="80px auto">
+      <Box width="80%" margin="50px auto">
         <Typography variant="h3" textAlign="center">
           Shop
         </Typography>
-        <DynamicTabMenu openTab={openTab} value={value} />
+        <DynamicTabMenu />
         <Box
           margin="0 auto"
           className="mt-5"
@@ -52,11 +53,6 @@ const Shop: FC = () => {
           <SkeletonBlock />
           <SkeletonBlock />
           <SkeletonBlock />
-          <SkeletonBlock />
-          <SkeletonBlock />
-          <SkeletonBlock />
-          <SkeletonBlock />
-          <SkeletonBlock />
         </Box>
       </Box>
     );
@@ -66,7 +62,8 @@ const Shop: FC = () => {
       <Typography variant="h3" textAlign="center">
         Shop
       </Typography>
-      <DynamicTabMenu openTab={openTab} value={value} />
+      <DynamicTabMenu />
+      <SelectUI />
       <Box
         margin="0 auto"
         className="mt-5"
@@ -76,46 +73,20 @@ const Shop: FC = () => {
         rowGap="20px"
         columnGap="1.33%"
       >
-        {value === "all"
-          ? data.data.data.map((item: any) => (
-              <Item item={item} key={`${item.name}-${item.id}`} />
-            ))
-          : dataFilter.data.data.map((item: any) => (
-              <Item item={item} key={`${item.name}-${item.id}`} />
-            ))}
+        {data.map((el: any) => (
+          <Item item={el} key={el.id} isCategory={false} />
+        ))}
       </Box>
-      {value === "all" ? (
-        <>
-          {pageCount1 > 1 ? (
-            <PaginationButtonBlock
-              disabledNext={page === pageCount1}
-              onClickNext={() => setPage((prevState: any) => prevState + 1)}
-              disabledPrev={page === 1}
-              onClickPrev={() => setPage((prevState: any) => prevState - 1)}
-              numPages={`${page} / ${pageCount1}`}
-            />
-          ) : (
-            <></>
-          )}
-        </>
+      {paginationPage > 1 ? (
+        <PaginationButtonBlock
+          disabledNext={currentPage === paginationPage}
+          onClickNext={() => setCurrentPage(currentPage + 1)}
+          disabledPrev={currentPage === 1}
+          onClickPrev={() => setCurrentPage(currentPage - 1)}
+          numPages={`${currentPage} / ${paginationPage}`}
+        />
       ) : (
-        <>
-          {pageCount2 > 1 ? (
-            <PaginationButtonBlock
-              disabledNext={pageFilter === pageCount2}
-              onClickNext={() =>
-                setPageFilter((prevState: any) => prevState + 1)
-              }
-              disabledPrev={pageFilter === 1}
-              onClickPrev={() =>
-                setPageFilter((prevState: any) => prevState - 1)
-              }
-              numPages={`${pageFilter} / ${pageCount2}`}
-            />
-          ) : (
-            <></>
-          )}
-        </>
+        <></>
       )}
     </Box>
   );

@@ -27,7 +27,9 @@
     "src/state/index.ts",
     "src/hooks/useActions.js",
     "src/pages/items/[id].js",
-    "src/components/Checkout/Checkout.tsx"
+    "src/components/Checkout/Checkout.tsx",
+    "src/pages/api/users/register.ts",
+    "utils/auth.js"
   ],
   "exclude": ["node_modules"]
 }

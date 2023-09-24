@@ -15,7 +15,7 @@ const HeaderMenu: FC = () => {
               <Link href="/shop">Shop</Link>
             </li>
             <li>
-              <Link href="/profile">Categories</Link>
+              <Link href="/categories">Categories</Link>
             </li>
             <li>
               <Link href="/order">About</Link>
